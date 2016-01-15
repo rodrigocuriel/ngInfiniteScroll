@@ -1,4 +1,4 @@
-/* ng-infinite-scroll - v1.2.0 - 2015-12-02 */
+/* ng-infinite-scroll - v1.2.0 - 2016-01-15 */
 var mod;
 
 mod = angular.module('infinite-scroll', []);
@@ -17,8 +17,9 @@ mod.directive('infiniteScroll', [
         infiniteScrollListenForEvent: '@'
       },
       link: function(scope, elem, attrs) {
-        var changeContainer, checkInterval, checkWhenEnabled, container, handleInfiniteScrollContainer, handleInfiniteScrollDisabled, handleInfiniteScrollDistance, handleInfiniteScrollUseDocumentBottom, handler, height, immediateCheck, offsetTop, pageYOffset, scrollDistance, scrollEnabled, throttle, unregisterEventListener, useDocumentBottom, windowElement;
+        var changeContainer, checkInterval, checkWhenEnabled, container, handleInfiniteScrollContainer, handleInfiniteScrollDisabled, handleInfiniteScrollDistance, handleInfiniteScrollUseDocumentBottom, handler, height, immediateCheck, initComplete, offsetTop, pageYOffset, scrollDistance, scrollEnabled, throttle, unregisterEventListener, useDocumentBottom, windowElement;
         windowElement = angular.element($window);
+        initComplete = false;
         scrollDistance = null;
         scrollEnabled = null;
         checkWhenEnabled = null;
@@ -51,6 +52,10 @@ mod.directive('infiniteScroll', [
         };
         handler = function() {
           var containerBottom, containerTopOffset, elementBottom, remaining, shouldScroll;
+          if (!initComplete) {
+            initComplete = true;
+            return;
+          }
           if (container === windowElement) {
             containerBottom = height(container) + pageYOffset(container[0].document.documentElement);
             elementBottom = offsetTop(elem) + height(elem);

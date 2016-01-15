@@ -15,6 +15,7 @@ mod.directive 'infiniteScroll', ['$rootScope', '$window', '$interval', 'THROTTLE
   link: (scope, elem, attrs) ->
     windowElement = angular.element($window)
 
+    initComplete = false
     scrollDistance = null
     scrollEnabled = null
     checkWhenEnabled = null
@@ -47,6 +48,9 @@ mod.directive 'infiniteScroll', ['$rootScope', '$window', '$interval', 'THROTTLE
     # with a boolean that is set to true when the function is
     # called in order to throttle the function call.
     handler = ->
+      if !initComplete
+        initComplete = true
+        return
       if container == windowElement
         containerBottom = height(container) + pageYOffset(container[0].document.documentElement)
         elementBottom = offsetTop(elem) + height(elem)
